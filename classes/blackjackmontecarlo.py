@@ -53,7 +53,7 @@ class Blackjack_MonteCarlo():
         pct_winning_money_mean = self.blackjack_df['pct_win_money'].mean()
         pct_losing_money_mean = self.blackjack_df['pct_lose_money'].mean()
         earnings = self.pct_exhanged_money_mean*(pct_losing_money_mean) - self.pct_exhanged_money_mean*(pct_winning_money_mean)
-        return earnings
+        return round(earnings)
     
     def how_much_total_money_house_makes(self):
       game_earning = self.how_much_money_per_game_house_makes()
