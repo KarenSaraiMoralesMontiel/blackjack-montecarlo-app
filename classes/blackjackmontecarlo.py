@@ -42,7 +42,7 @@ class Blackjack_MonteCarlo():
         self.blackjack_df['result'] = self.blackjack_df[['n_win_rounds', 'n_lose_rounds']].apply(lambda row: win_determinator(row['n_win_rounds'], row['n_lose_rounds']), axis=1)
         self.pct_winning_money_mean = self.blackjack_df['pct_win_money'].mean()
         self.pct_losing_money_mean = self.blackjack_df['pct_lose_money'].mean()
-        self.pct_exhanged_money_mean = self.blackjack_df['total_exchanged_money'].mean()
+        self.pct_exchanged_money_mean = self.blackjack_df['total_exchanged_money'].mean()
         
 
     def get_how_many_rounds_per_game_house_wins(self):
@@ -52,12 +52,12 @@ class Blackjack_MonteCarlo():
     def how_much_money_per_game_house_makes(self):
         pct_winning_money_mean = self.blackjack_df['pct_win_money'].mean()
         pct_losing_money_mean = self.blackjack_df['pct_lose_money'].mean()
-        earnings = self.pct_exhanged_money_mean*(pct_losing_money_mean) - self.pct_exhanged_money_mean*(pct_winning_money_mean)
+        earnings = self.pct_exchanged_money_mean*(pct_losing_money_mean - pct_winning_money_mean)
         return round(earnings)
     
     def how_much_total_money_house_makes(self):
       game_earning = self.how_much_money_per_game_house_makes()
-      return game_earning*self.pct_exchanged_money_mean
+      return game_earning*self.n_rep
     
     def does_house_earn(self):
         earnings = self.how_much_money_per_game_house_makes()
@@ -68,24 +68,27 @@ class Blackjack_MonteCarlo():
         result_counts_df.set_index('index', inplace=True)
         result_counts_df = result_counts_df.rename(index={'win': 'lose', 'lose': 'win'}, columns={'result': 'counts'})
         total_games = result_counts_df['counts'].sum()
-        pct_win_games = result_counts_df['win'] / total_games
-        pct_lose_games = result_counts_df['lose'] / total_games
-        pct_tie_games = result_counts_df['tie'] / total_games
-        return {'win': pct_win_games, 'tie' :pct_tie_games, 'lose' : pct_lose_games}
+        # Correctly access the columns after renaming
+        pct_win_games = result_counts_df.loc['win', 'counts'] / total_games
+        pct_lose_games = result_counts_df.loc['lose', 'counts'] / total_games
+        pct_tie_games = result_counts_df.loc['tie', 'counts'] / total_games
+        return {'win': pct_win_games, 'tie': pct_tie_games, 'lose': pct_lose_games}
+
     
     def show_games_distribution(self):
         result_counts_df = self.blackjack_df['result'].value_counts().reset_index()
         result_counts_df.set_index('index', inplace=True)
         result_counts_df = result_counts_df.rename(index={'win': 'lose', 'lose': 'win'}, columns={'result': 'counts'})
-        # Now, plot the DataFrame
+    
         # Plotting the bar plot
-        ax = result_counts_df.plot.bar(y='counts', use_index=True, fontsize='9')
+        ax = result_counts_df.plot.bar(y='counts', use_index=True, fontsize='9', legend=None)
 
-        # Annotating the bars with counts
+    # Annotating the bars with counts
         for i, count in enumerate(result_counts_df['counts']):
             ax.text(i, count + 0.5, str(count), ha='center', fontsize=9)
 
-        plt.show()
+    # Instead of plt.show(), we return the figure
+        return ax.figure
         
     
     def show_rounds_house_wins_per_game(self):

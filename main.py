@@ -1,11 +1,4 @@
-from classes.blackjackmontecarlo import Blackjack_MonteCarlo
+from streamlitapp import app
 
-
-blackjack_montecarlo = Blackjack_MonteCarlo()
-blackjack_montecarlo.simulate()
-
-blackjack_montecarlo.show_percentage_money_house_gets()
-blackjack_montecarlo.show_games_distribution()
-blackjack_montecarlo.show_rounds_house_wins_per_game()
-print(blackjack_montecarlo.does_house_earn())
-print(blackjack_montecarlo.how_much_money_per_game_house_makes())
+if __name__ == '__main__':
+    app()
