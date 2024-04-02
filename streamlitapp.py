@@ -8,11 +8,11 @@ class StreamlitApp():
 
         st.sidebar.header('Simulation Parameters')
         n_rep = st.sidebar.number_input('Number of Simulations', value=10000)
-        starting_balance = st.sidebar.number_input('Starting Balance', value=100)
+        starting_balance = st.sidebar.number_input('Starting Balance', value=1000)
     
         # Set the maximum bet value to be less than the starting balance
         max_bet = starting_balance - 10  # Adjust the maximum bet limit if needed
-        bet = st.sidebar.number_input('Bet Amount', value=10, min_value=1, max_value=max_bet)
+        bet = st.sidebar.number_input('Bet Amount', value=100, min_value=1, max_value=max_bet)
     
         rounds = st.sidebar.number_input('Number of Rounds', value=10)
         multiple_win = st.sidebar.number_input('Multiple Win', value=3.0, step=0.1)

@@ -3,7 +3,7 @@ from classes.deck import Deck
 import random
 
 class Blackjack_Game:
-    def __init__(self, starting_balance=100, multiple_win= 3, bet = 10):
+    def __init__(self, starting_balance=1000, multiple_win= 3, bet = 100):
         self.deck = Deck()
         self.player_hand = []
         self.dealer_hand = []
@@ -102,12 +102,12 @@ class Blackjack_Game:
         for round in range(1, rounds_to_play + 1):
             if self.balance <= 0:
                 break
-        self.player_hand.clear()
-        self.dealer_hand.clear()
-        #self.bet = 10
-        self.total_rounds += 1  # Increment total rounds played
-        self.deal_initial()
-        if self.player_turn():
-            self.dealer_turn()
+            self.player_hand.clear()
+            self.dealer_hand.clear()
+            #self.bet = 10
+            self.total_rounds += 1  # Increment total rounds played
+            self.deal_initial()
+            if self.player_turn():
+                self.dealer_turn()
         total_loses = self.total_rounds - self.total_wins
         return [self.total_wins, total_loses,  self.wins, self.loses,  self.balance, self.starting_balance]
