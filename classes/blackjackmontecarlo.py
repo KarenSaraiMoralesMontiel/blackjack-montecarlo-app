@@ -1,6 +1,10 @@
 from classes.blackjack import Blackjack_Game
 import pandas as pd
 import matplotlib.pyplot as plt
+from pyecharts import options as opts
+from pyecharts.charts import Bar
+from io import BytesIO
+import numpy as np
 import seaborn as sns
 
 class Blackjack_MonteCarlo():
@@ -74,41 +78,74 @@ class Blackjack_MonteCarlo():
         pct_tie_games = result_counts_df.loc['tie', 'counts'] / total_games
         return {'win': pct_win_games, 'tie': pct_tie_games, 'lose': pct_lose_games}
 
+        
     
-    def show_games_distribution(self):
+    def show_games_distribution_count(self):
         result_counts_df = self.blackjack_df['result'].value_counts().reset_index()
         result_counts_df.set_index('index', inplace=True)
         result_counts_df = result_counts_df.rename(index={'win': 'lose', 'lose': 'win'}, columns={'result': 'counts'})
+        x_axis = list(result_counts_df.index)
+        y_axis = list(result_counts_df.counts)
+        b = (
+    Bar()
+    .add_xaxis(x_axis)
+    .add_yaxis("Counts of Games", y_axis)
+    .set_global_opts(
+        title_opts=opts.TitleOpts(
+            title="Games Distribution", subtitle="Count of Games"
+        ),
+        toolbox_opts=opts.ToolboxOpts(),
+    )
+)
+        return b
     
-        # Plotting the bar plot
-        ax = result_counts_df.plot.bar(y='counts', use_index=True, fontsize='9', legend=None)
 
-    # Annotating the bars with counts
-        for i, count in enumerate(result_counts_df['counts']):
-            ax.text(i, count + 0.5, str(count), ha='center', fontsize=9)
-
-    # Instead of plt.show(), we return the figure
-        return ax.figure
-        
-    
     def show_rounds_house_wins_per_game(self):
-        x = self.blackjack_df['n_lose_rounds']
-        result = plt.hist(x, bins=10, color='c', edgecolor='k', alpha=0.65)
-        plt.axvline(x.mean(), color='red', linestyle='dashed', linewidth=1, label='Mean')
-        plt.axvline(x.median(), color='blue', linestyle='dashed', linewidth=1, label="Median")
-        plt.text(x.mean(), max(result[0]) * 1, f' {x.mean():.2f}', color='red', verticalalignment='bottom', horizontalalignment='left')
-        plt.text(x.median(), max(result[0]) * 1, f'{x.median():.2f}', color='blue', verticalalignment='bottom', horizontalalignment='right')
-        plt.title("Rounds Houses Wins Per Game")
-        plt.legend()
-        plt.savefig('Rounds Houses Wins Per Game')
+    # Create a new figure
+        fig, ax = plt.subplots(figsize=(8, 6))
     
+    # Get data
+        x = self.blackjack_df['n_lose_rounds']
+    
+    # Plot histogram
+        result = ax.hist(x, bins=10, color='c', edgecolor='k', alpha=0.65)
+    
+    # Add mean and median lines
+        ax.axvline(x.mean(), color='red', linestyle='dashed', linewidth=1, label='Mean')
+        ax.axvline(x.median(), color='blue', linestyle='dashed', linewidth=1, label="Median")
+    
+        # Add text annotations
+        ax.text(x.mean(), max(result[0]) * 1, f' {x.mean():.2f}', color='red', verticalalignment='bottom', horizontalalignment='left')
+        ax.text(x.median(), max(result[0]) * 1, f'{x.median():.2f}', color='blue', verticalalignment='bottom', horizontalalignment='right')
+    
+        # Set title and legend
+        ax.set_title("Rounds Houses Wins Per Game")
+        ax.legend()
+
+        # Return the figure object
+        return fig
+
     def show_percentage_money_house_gets(self):  
+        # Create a new figure
+        fig, ax = plt.subplots(figsize=(8, 6))
+    
+        # Get data
         x = self.blackjack_df['pct_lose_money']
-        result = plt.hist(x, bins=10, color='c', edgecolor='k', alpha=0.65)
-        plt.axvline(x.mean(), color='red', linestyle='dashed', linewidth=1, label='Mean')
-        plt.axvline(x.median(), color='blue', linestyle='dashed', linewidth=1, label="Median")
-        plt.text(x.mean(), max(result[0]) * 1, f' {x.mean():.2f}', color='red', verticalalignment='bottom', horizontalalignment='left')
-        plt.text(x.median(), max(result[0]) * .96, f'{x.median():.2f}', color='blue', verticalalignment='bottom', horizontalalignment='right')
-        plt.title('Percentage of Money House Gets')
-        plt.legend()
-        plt.savefig("Percentage of Money House Gets")
+    
+        # Plot histogram
+        result = ax.hist(x, bins=10, color='c', edgecolor='k', alpha=0.65)
+    
+        # Add mean and median lines
+        ax.axvline(x.mean(), color='red', linestyle='dashed', linewidth=1, label='Mean')
+        ax.axvline(x.median(), color='blue', linestyle='dashed', linewidth=1, label="Median")
+    
+        # Add text annotations
+        ax.text(x.mean(), max(result[0]) * 1, f' {x.mean():.2f}', color='red', verticalalignment='bottom', horizontalalignment='left')
+        ax.text(x.median(), max(result[0]) * .96, f'{x.median():.2f}', color='blue', verticalalignment='bottom', horizontalalignment='right')
+    
+        # Set title and legend
+        ax.set_title('Percentage of Money House Gets')
+        ax.legend()
+
+        # Return the figure object
+        return fig
