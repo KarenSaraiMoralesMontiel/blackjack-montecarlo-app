@@ -19,7 +19,7 @@ class Blackjack_MonteCarlo():
             self.pct_customer = .2
         elif multiple_win > 1:
             self.pct_customer = .1
-        self.n_rep = (1 + self.pct_customer)*self.n_rep
+        self.n_rep = round((1 + self.pct_customer)*self.n_rep)
         self.blackjack_df = None
         self.result_counts_df = None
         self.pct_winning_money_mean = 0
@@ -27,6 +27,12 @@ class Blackjack_MonteCarlo():
         self.pct_exchanged_money_mean = 0
         
     def simulate(self):
+        """
+        Run the Monte Carlo simulation of the blackjack game.
+
+        This method initializes the simulation parameters, runs the specified number of iterations,
+        and collects the results into a DataFrame for analysis.
+        """
         results = []
         for _ in range(self.n_rep):
             game = Blackjack_Game(starting_balance=self.starting_balance, multiple_win=self.multiple_win, bet=self.bet)
@@ -37,6 +43,11 @@ class Blackjack_MonteCarlo():
         self.transform_data()
 
     def transform_data(self):
+        """
+        Cleans the data to analyze.
+
+        This method cleans the data and stores it to a DataFrame.
+        """
         def win_determinator(win, lose):
             if win > lose :
                 return "win"
@@ -60,24 +71,49 @@ class Blackjack_MonteCarlo():
         
 
     def get_how_many_rounds_per_game_house_wins(self):
+        """Calculates the average of rounds the house wins per game
+
+        Returns:
+            pct_win_dealer: Average of rounds the house wins
+        """
         pct_win_dealer = self.blackjack_df['n_lose_rounds'].mean()
         return pct_win_dealer
     
     def how_much_money_per_game_house_makes(self):
+        """Calculates how much money per game house makes
+
+        Returns:
+            int: Returns the expected earnings the house makes
+        """
         pct_winning_money_mean = self.blackjack_df['pct_win_money'].mean()
         pct_losing_money_mean = self.blackjack_df['pct_lose_money'].mean()
         earnings = self.pct_exchanged_money_mean*(pct_losing_money_mean - pct_winning_money_mean)
         return round(earnings)
     
     def how_much_total_money_house_makes(self):
-      game_earning = self.how_much_money_per_game_house_makes()
-      return game_earning*self.n_rep
+        """Returns how much money of the whole simulation gets
+
+        Returns:
+            int: Total money earned
+        """
+        game_earning = self.how_much_money_per_game_house_makes()
+        return game_earning*self.n_rep
     
     def does_house_earn(self):
+        """If the house produced earnings
+
+        Returns:
+            bool: If the house produced earnings
+        """
         earnings = self.how_much_money_per_game_house_makes()
         return earnings > 0
     
     def games_pie_base(self) -> Pie:
+        """Returns a pie chart based on the counts of the status of games
+
+        Returns:
+            Pie: Pie Chart with the status games (win, tie, lose)
+        """
         x_axis = list(self.result_counts_df.index)
         y_axis = list(self.result_counts_df['counts'])
     
@@ -91,7 +127,12 @@ class Blackjack_MonteCarlo():
     
         return pie_chart
     
-    def result_games_distribution_pct(self):
+    def result_games_distribution_pct(self) -> dict:
+        """Gives the pct of games distribution
+
+        Returns:
+            dict: A dictionary with pct (float) of the games
+        """
         total_games = self.result_counts_df['counts'].sum()
         # Correctly access the columns after renaming
         pct_win_games = self.result_counts_df.loc['win', 'counts'] / total_games
@@ -101,7 +142,12 @@ class Blackjack_MonteCarlo():
 
         
     
-    def show_games_distribution_count(self):
+    def show_games_distribution_count(self) -> Bar:
+        """Echart Bar that returns the counts of the games
+
+        Returns:
+            Bar: Echart Bar Chart with the counts of the games
+        """
         x_axis = list(self.result_counts_df.index)
         y_axis = list(self.result_counts_df.counts)
         b = (
@@ -118,7 +164,12 @@ class Blackjack_MonteCarlo():
         return b
     
 
-    def show_rounds_house_wins_per_game(self):
+    def show_rounds_house_wins_per_game(self) -> plt:
+        """A graph that returns the distributions of the rounds house wins per game
+
+        Returns:
+            plt: A graph with the distribution of the rounds house wins per game and the median and mean.
+        """
     # Create a new figure
         fig, ax = plt.subplots(figsize=(8, 6))
     
@@ -143,8 +194,13 @@ class Blackjack_MonteCarlo():
         # Return the figure object
         return fig
 
-    def show_percentage_money_house_gets(self):  
-        # Create a new figure
+    def show_percentage_money_house_gets(self) -> plt: 
+        """Returns a graph with the distribution of percentage money house gets
+
+        Returns:
+            plt: A distribution graph of the percentage money house gets with its mean and median
+        """
+        
         fig, ax = plt.subplots(figsize=(8, 6))
     
         # Get data
