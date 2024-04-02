@@ -3,9 +3,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyecharts import options as opts
 from pyecharts.charts import Bar
-from io import BytesIO
-import numpy as np
-import seaborn as sns
 
 class Blackjack_MonteCarlo():
     def __init__(self, n_rep=10000, starting_balance=100, bet=10, rounds=10, multiple_win=3):
