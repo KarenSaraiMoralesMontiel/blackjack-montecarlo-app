@@ -13,13 +13,6 @@ class Blackjack_MonteCarlo():
         self.rounds = rounds
         self.multiple_win = multiple_win
         self.pct_customer = 0
-        if multiple_win == 3:
-            self.pct_customer = .3
-        elif multiple_win >= 2:
-            self.pct_customer = .2
-        elif multiple_win > 1:
-            self.pct_customer = .1
-        self.n_rep = round((1 + self.pct_customer)*self.n_rep)
         self.blackjack_df = None
         self.result_counts_df = None
         self.pct_winning_money_mean = 0
