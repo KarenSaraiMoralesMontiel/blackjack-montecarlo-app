@@ -25,12 +25,6 @@ class StreamlitApp():
         if number_str[-1] == "-":
             number_str = number_str[:-1]
             symbol = "-"
-    
-    # Add commas every three characters
-        formatted_str = ','.join(number_str[i:i+3] for i in range(0, len(number_str), 3))
-    
-    # Reverse the string back to the original order
-        formatted_number = formatted_str[::-1]
 
         st.header('Simulation Results')
     
