@@ -80,8 +80,8 @@ class Blackjack_MonteCarlo():
         """
         pct_winning_money_mean = self.blackjack_df['pct_win_money'].mean()
         pct_losing_money_mean = self.blackjack_df['pct_lose_money'].mean()
-        earnings = self.pct_exchanged_money_mean*(pct_losing_money_mean - pct_winning_money_mean)
-        return round(earnings)
+        earnings = round(self.pct_exchanged_money_mean*(pct_losing_money_mean - pct_winning_money_mean),2)
+        return earnings
     
     def how_much_total_money_house_makes(self):
         """Returns how much money of the whole simulation gets
