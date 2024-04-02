@@ -19,11 +19,21 @@ class Blackjack_Game:
         self.total_wins = 0    # New variable to track total wins
 
     def deal_initial(self):
+        """Deals cards to both player and dealer
+        """
         for _ in range(2):
             self.player_hand.append(self.deck.deal_card())
             self.dealer_hand.append(self.deck.deal_card())
 
-    def calculate_score(self, hand):
+    def calculate_score(self, hand) -> int:
+        """Calculates the score of a hand
+
+        Args:
+            hand (list): A list of cards holding the hand
+
+        Returns:
+            int: Score of the hand
+        """
         score = 0
         num_aces = 0
         for card in hand:
@@ -41,6 +51,11 @@ class Blackjack_Game:
 
 
     def player_turn(self):
+        """Player's turn
+
+        Returns:
+            bool: Returns if the player can still play
+        """
         while True:
             choice = random.choice(['h' , 's'])
             if choice == 'h':
@@ -55,6 +70,8 @@ class Blackjack_Game:
         return True
 
     def dealer_turn(self):
+        """Dealer's play logic
+        """
         dealer_score = self.calculate_score(self.dealer_hand)
         if dealer_score == 21:
             self.balance -= self.bet
@@ -74,9 +91,17 @@ class Blackjack_Game:
             self.loses += self.bet
 
     def play(self, rounds_to_play=10):
-      for round in range(1, rounds_to_play + 1):
-        if self.balance <= 0:
-            break
+        """A BlackJack Game
+
+        Args:
+            rounds_to_play (int, optional): Rounds to play in game. Defaults to 10.
+
+        Returns:
+            list: Data from the play
+        """
+        for round in range(1, rounds_to_play + 1):
+            if self.balance <= 0:
+                break
         self.player_hand.clear()
         self.dealer_hand.clear()
         #self.bet = 10
@@ -84,5 +109,5 @@ class Blackjack_Game:
         self.deal_initial()
         if self.player_turn():
             self.dealer_turn()
-      total_loses = self.total_rounds - self.total_wins
-      return [self.total_wins, total_loses,  self.wins, self.loses,  self.balance, self.starting_balance]
+        total_loses = self.total_rounds - self.total_wins
+        return [self.total_wins, total_loses,  self.wins, self.loses,  self.balance, self.starting_balance]
