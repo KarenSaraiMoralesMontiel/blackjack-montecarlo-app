@@ -6,12 +6,20 @@ from pyecharts.charts import Bar
 from pyecharts.charts import Pie
 
 class Blackjack_MonteCarlo():
-    def __init__(self, n_rep=10000, starting_balance=100, bet=10, rounds=10, multiple_win=3):
+    def __init__(self, n_rep=10000, starting_balance=1000, bet=100, rounds=10, multiple_win=3):
         self.n_rep = n_rep
         self.starting_balance = starting_balance
         self.bet = bet
         self.rounds = rounds
         self.multiple_win = multiple_win
+        self.pct_customer = 0
+        if multiple_win == 3:
+            self.pct_customer = .3
+        elif multiple_win >= 2:
+            self.pct_customer = .2
+        elif multiple_win > 1:
+            self.pct_customer = .1
+        self.n_rep = (1 + self.pct_customer)*self.n_rep
         self.blackjack_df = None
         self.result_counts_df = None
         self.pct_winning_money_mean = 0
