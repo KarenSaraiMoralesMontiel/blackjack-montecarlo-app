@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from pyecharts import options as opts
 from pyecharts.charts import Bar
+from pyecharts.charts import Pie
 
 class Blackjack_MonteCarlo():
     def __init__(self, n_rep=10000, starting_balance=100, bet=10, rounds=10, multiple_win=3):
@@ -12,6 +13,7 @@ class Blackjack_MonteCarlo():
         self.rounds = rounds
         self.multiple_win = multiple_win
         self.blackjack_df = None
+        self.result_counts_df = None
         self.pct_winning_money_mean = 0
         self.pct_losing_money_mean = 0
         self.pct_exchanged_money_mean = 0
@@ -44,6 +46,9 @@ class Blackjack_MonteCarlo():
         self.pct_winning_money_mean = self.blackjack_df['pct_win_money'].mean()
         self.pct_losing_money_mean = self.blackjack_df['pct_lose_money'].mean()
         self.pct_exchanged_money_mean = self.blackjack_df['total_exchanged_money'].mean()
+        self.result_counts_df = self.blackjack_df['result'].value_counts().reset_index()
+        self.result_counts_df.set_index('index', inplace=True)
+        self.result_counts_df = self.result_counts_df.rename(index={'win': 'lose', 'lose': 'win'}, columns={'result': 'counts'})
         
 
     def get_how_many_rounds_per_game_house_wins(self):
@@ -64,25 +69,33 @@ class Blackjack_MonteCarlo():
         earnings = self.how_much_money_per_game_house_makes()
         return earnings > 0
     
+    def games_pie_base(self) -> Pie:
+        x_axis = list(self.result_counts_df.index)
+        y_axis = list(self.result_counts_df['counts'])
+    
+    # Create the Pie chart
+        pie_chart = (
+        Pie()
+        .add("", [list(z) for z in zip(x_axis, y_axis)])
+        .set_global_opts(title_opts=opts.TitleOpts(title="Distribution Games"))
+        .set_series_opts(label_opts=opts.LabelOpts(formatter="{b}: {c}"))
+    )
+    
+        return pie_chart
+    
     def result_games_distribution_pct(self):
-        result_counts_df = self.blackjack_df['result'].value_counts().reset_index()
-        result_counts_df.set_index('index', inplace=True)
-        result_counts_df = result_counts_df.rename(index={'win': 'lose', 'lose': 'win'}, columns={'result': 'counts'})
-        total_games = result_counts_df['counts'].sum()
+        total_games = self.result_counts_df['counts'].sum()
         # Correctly access the columns after renaming
-        pct_win_games = result_counts_df.loc['win', 'counts'] / total_games
-        pct_lose_games = result_counts_df.loc['lose', 'counts'] / total_games
-        pct_tie_games = result_counts_df.loc['tie', 'counts'] / total_games
+        pct_win_games = self.result_counts_df.loc['win', 'counts'] / total_games
+        pct_lose_games = self.result_counts_df.loc['lose', 'counts'] / total_games
+        pct_tie_games = self.result_counts_df.loc['tie', 'counts'] / total_games
         return {'win': pct_win_games, 'tie': pct_tie_games, 'lose': pct_lose_games}
 
         
     
     def show_games_distribution_count(self):
-        result_counts_df = self.blackjack_df['result'].value_counts().reset_index()
-        result_counts_df.set_index('index', inplace=True)
-        result_counts_df = result_counts_df.rename(index={'win': 'lose', 'lose': 'win'}, columns={'result': 'counts'})
-        x_axis = list(result_counts_df.index)
-        y_axis = list(result_counts_df.counts)
+        x_axis = list(self.result_counts_df.index)
+        y_axis = list(self.result_counts_df.counts)
         b = (
     Bar()
     .add_xaxis(x_axis)
@@ -113,7 +126,7 @@ class Blackjack_MonteCarlo():
     
         # Add text annotations
         ax.text(x.mean(), max(result[0]) * 1, f' {x.mean():.2f}', color='red', verticalalignment='bottom', horizontalalignment='left')
-        ax.text(x.median(), max(result[0]) * 1, f'{x.median():.2f}', color='blue', verticalalignment='bottom', horizontalalignment='right')
+        ax.text(x.median(), max(result[0]) * .96, f'{x.median():.2f}', color='blue', verticalalignment='bottom', horizontalalignment='right')
     
         # Set title and legend
         ax.set_title("Rounds Houses Wins Per Game")

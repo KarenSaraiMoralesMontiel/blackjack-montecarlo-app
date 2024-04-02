@@ -20,26 +20,36 @@ class StreamlitApp():
         st.sidebar.text('Simulating...')
         self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
         self.blackjack_simulator.simulate()
+        number_str = str(self.blackjack_simulator.how_much_total_money_house_makes())[::-1]
+        symbol = ""
+        if number_str[-1] == "-":
+            number_str = number_str[:-1]
+            symbol = "-"
+    
+    # Add commas every three characters
+        formatted_str = ','.join(number_str[i:i+3] for i in range(0, len(number_str), 3))
+    
+    # Reverse the string back to the original order
+        formatted_number = formatted_str[::-1]
 
         st.header('Simulation Results')
     
         col1, col2, col3 = st.columns(3)
+        
         col1.metric('House Wins Per Game', self.blackjack_simulator.get_how_many_rounds_per_game_house_wins())
-        col2.metric('Total Money House Makes', self.blackjack_simulator.how_much_total_money_house_makes())
+        col2.metric('Total Money House Makes',f"{symbol}${formatted_number}")
         col3.metric('Does House earns?', self.blackjack_simulator.does_house_earn() )
 
         st.subheader('Games Distribution Percentage')
-        games_distribution = self.blackjack_simulator.result_games_distribution_pct()
-        st.write(f"Win Percentage: {games_distribution['win']:.2%}")
-        st.write(f"Lose Percentage: {games_distribution['lose']:.2%}")
-        st.write(f"Tie Percentage: {games_distribution['tie']:.2%}")
+        st_pyecharts(
+        self.blackjack_simulator.games_pie_base(), key="echarts-percentage"
+    )  
 
         st.subheader('Games Distribution Count')
         st_pyecharts(
-    self.blackjack_simulator.show_games_distribution_count(), key="echarts"
+    self.blackjack_simulator.show_games_distribution_count(), key="echarts-count"
     )  
     
-    #st.pyplot(blackjack_simulator.show_games_distribution())
         st.subheader('Rounds House Wins Per Games')
 
         st.pyplot(self.blackjack_simulator.show_rounds_house_wins_per_game())
