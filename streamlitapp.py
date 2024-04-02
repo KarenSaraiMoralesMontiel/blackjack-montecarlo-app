@@ -21,7 +21,7 @@ class StreamlitApp():
         self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
         self.blackjack_simulator.simulate()
         number_str = str(self.blackjack_simulator.how_much_total_money_house_makes())[::-1]
-        symbol = ""
+        symbol = "+"
         if number_str[-1] == "-":
             number_str = number_str[:-1]
             symbol = "-"
