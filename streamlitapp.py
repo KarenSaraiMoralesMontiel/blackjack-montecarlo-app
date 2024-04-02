@@ -20,7 +20,7 @@ class StreamlitApp():
         st.sidebar.text('Simulating...')
         self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
         self.blackjack_simulator.simulate()
-        number_str = str(self.blackjack_simulator.how_much_total_money_house_makes())[::-1]
+        number_str = str(self.blackjack_simulator.how_much_money_per_game_house_makes())[::-1]
         symbol = "+"
         if number_str[-1] == "-":
             number_str = number_str[:-1]
@@ -37,7 +37,7 @@ class StreamlitApp():
         col1, col2, col3 = st.columns(3)
         
         col1.metric('House Wins Per Game', self.blackjack_simulator.get_how_many_rounds_per_game_house_wins())
-        col2.metric('Total Money House Makes',f"{symbol}${formatted_number}")
+        col2.metric('Money House Makes Per Game',f"{symbol}${formatted_number}")
         col3.metric('Does House earns?', self.blackjack_simulator.does_house_earn() )
 
         st.subheader('Games Distribution Percentage')
