@@ -63,42 +63,42 @@ class Blackjack_MonteCarlo():
         self.result_counts_df = self.result_counts_df.rename(index={'win': 'lose', 'lose': 'win'}, columns={'result': 'counts'})
         
 
-    def get_how_many_rounds_per_game_house_wins(self):
-        """Calculates the average of rounds the house wins per game
+    def get_how_many_rounds_per_game_dealer_wins(self):
+        """Calculates the average of rounds the dealer wins per game
 
         Returns:
-            pct_win_dealer: Average of rounds the house wins
+            pct_win_dealer: Average of rounds the dealer wins
         """
         pct_win_dealer = self.blackjack_df['n_lose_rounds'].mean()
         return pct_win_dealer
     
-    def how_much_money_per_game_house_makes(self):
-        """Calculates how much money per game house makes
+    def how_much_money_per_game_dealer_makes(self):
+        """Calculates how much money per game dealer makes
 
         Returns:
-            int: Returns the expected earnings the house makes
+            int: Returns the expected earnings the dealer makes
         """
         pct_winning_money_mean = self.blackjack_df['pct_win_money'].mean()
         pct_losing_money_mean = self.blackjack_df['pct_lose_money'].mean()
         earnings = round(self.pct_exchanged_money_mean*(pct_losing_money_mean - pct_winning_money_mean),2)
         return earnings
     
-    def how_much_total_money_house_makes(self):
+    def how_much_total_money_dealer_makes(self):
         """Returns how much money of the whole simulation gets
 
         Returns:
             int: Total money earned
         """
-        game_earning = self.how_much_money_per_game_house_makes()
+        game_earning = self.how_much_money_per_game_dealer_makes()
         return game_earning*self.n_rep
     
-    def does_house_earn(self):
-        """If the house produced earnings
+    def does_dealer_earn(self):
+        """If the dealer produced earnings
 
         Returns:
-            bool: If the house produced earnings
+            bool: If the dealer produced earnings
         """
-        earnings = self.how_much_money_per_game_house_makes()
+        earnings = self.how_much_money_per_game_dealer_makes()
         return earnings > 0
     
     def games_pie_base(self) -> Pie:
@@ -157,11 +157,11 @@ class Blackjack_MonteCarlo():
         return b
     
 
-    def show_rounds_house_wins_per_game(self) -> plt:
-        """A graph that returns the distributions of the rounds house wins per game
+    def show_rounds_dealer_wins_per_game(self) -> plt:
+        """A graph that returns the distributions of the rounds dealer wins per game
 
         Returns:
-            plt: A graph with the distribution of the rounds house wins per game and the median and mean.
+            plt: A graph with the distribution of the rounds dealer wins per game and the median and mean.
         """
     # Create a new figure
         fig, ax = plt.subplots(figsize=(8, 6))
@@ -181,17 +181,17 @@ class Blackjack_MonteCarlo():
         ax.text(x.median(), max(result[0]) * .96, f'{x.median():.2f}', color='blue', verticalalignment='bottom', horizontalalignment='right')
     
         # Set title and legend
-        ax.set_title("Rounds Houses Wins Per Game")
+        ax.set_title("Rounds dealers Wins Per Game")
         ax.legend()
 
         # Return the figure object
         return fig
 
-    def show_percentage_money_house_gets(self) -> plt: 
-        """Returns a graph with the distribution of percentage money house gets
+    def show_percentage_money_dealer_gets(self) -> plt: 
+        """Returns a graph with the distribution of percentage money dealer gets
 
         Returns:
-            plt: A distribution graph of the percentage money house gets with its mean and median
+            plt: A distribution graph of the percentage money dealer gets with its mean and median
         """
         
         fig, ax = plt.subplots(figsize=(8, 6))
@@ -211,7 +211,7 @@ class Blackjack_MonteCarlo():
         ax.text(x.median(), max(result[0]) * .96, f'{x.median():.2f}', color='blue', verticalalignment='bottom', horizontalalignment='right')
     
         # Set title and legend
-        ax.set_title('Percentage of Money House Gets')
+        ax.set_title('Percentage of Money dealer Gets')
         ax.legend()
 
         # Return the figure object

@@ -20,19 +20,19 @@ class StreamlitApp():
         st.sidebar.text('Simulating...')
         self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
         self.blackjack_simulator.simulate()
-        number_str = self.blackjack_simulator.how_much_money_per_game_house_makes()
-        """symbol = "+"
+        number_str = str(self.blackjack_simulator.how_much_money_per_game_dealer_makes())
+        symbol = "+"
         if number_str[0] == "-":
             number_str = number_str[1:]
             symbol = "-"
-"""
+            
         st.header('Simulation Results')
     
         col1, col2, col3 = st.columns(3)
         
-        col1.metric('House Wins Per Game', self.blackjack_simulator.get_how_many_rounds_per_game_house_wins())
-        col2.metric('Money House Makes Per Game',f"${number_str}")
-        col3.metric('Does House earns?', self.blackjack_simulator.does_house_earn() )
+        col1.metric('Dealers Wins Per Game', self.blackjack_simulator.get_how_many_rounds_per_game_dealer_wins())
+        col2.metric('Money Delaers Makes Per Game',f"{symbol}${number_str}")
+        col3.metric('Does Dealer earns?', self.blackjack_simulator.does_dealer_earn() )
 
         st.subheader('Games Distribution Percentage')
         st_pyecharts(
@@ -44,9 +44,9 @@ class StreamlitApp():
     self.blackjack_simulator.show_games_distribution_count(), key="echarts-count"
     )  
     
-        st.subheader('Rounds House Wins Per Games')
+        st.subheader('Rounds Dealer Wins Per Games')
 
-        st.pyplot(self.blackjack_simulator.show_rounds_house_wins_per_game())
-        st.subheader('Money Percentage House Gets')
-        st.pyplot(self.blackjack_simulator.show_percentage_money_house_gets())
+        st.pyplot(self.blackjack_simulator.show_rounds_dealer_wins_per_game())
+        st.subheader('Money Percentage Dealer Gets')
+        st.pyplot(self.blackjack_simulator.show_percentage_money_dealer_gets())
 
