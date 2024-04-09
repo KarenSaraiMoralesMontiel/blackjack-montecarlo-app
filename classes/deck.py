@@ -1,3 +1,10 @@
+"""
+deck.py
+This file contains the Deck class
+which represents the Deck of Cards object
+Author: Karen Sarai Morales Montiel
+Creation date: April 1, 2024
+"""
 import random
 from classes.card import Card
 class Deck:
@@ -12,6 +19,7 @@ class Deck:
         """
         suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades']
         values = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
+        #Adds cards to the deck
         for suit in suits:
             for value in values:
                 self.cards.append(Card(suit, value))

@@ -1,3 +1,10 @@
+"""
+blackjackmontecarlo.py
+This file contains the class to perform the simulation of
+Monte Carlo using Blackjack game logic.
+Author: Karen Sarai Morales Montiel
+Creation date: April 1, 2024
+"""
 from classes.blackjack import Blackjack_Game
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -41,6 +48,7 @@ class Blackjack_MonteCarlo():
 
         This method cleans the data and stores it to a DataFrame.
         """
+        #defining a new function inside the method
         def win_determinator(win, lose):
             if win > lose :
                 return "win"
@@ -48,6 +56,7 @@ class Blackjack_MonteCarlo():
                 return "lose"
             else:
                 return "tie"
+        #Transforming the data
         self.blackjack_df['total_rounds'] = self.blackjack_df.apply(lambda row: row['n_win_rounds']+ row['n_lose_rounds'], axis=1)
         self.blackjack_df['pct_win_rounds'] = self.blackjack_df.apply(lambda row: row['n_win_rounds']/row['total_rounds'], axis = 1)
         self.blackjack_df['pct_lose_rounds'] = self.blackjack_df.apply(lambda row: row['n_lose_rounds']/row['total_rounds'], axis = 1)
@@ -76,7 +85,7 @@ class Blackjack_MonteCarlo():
         """Calculates how much money per game dealer makes
 
         Returns:
-            int: Returns the expected earnings the dealer makes
+            float: Returns the expected earnings the dealer makes
         """
         pct_winning_money_mean = self.blackjack_df['pct_win_money'].mean()
         pct_losing_money_mean = self.blackjack_df['pct_lose_money'].mean()

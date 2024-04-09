@@ -1,3 +1,10 @@
+"""
+blackjack.py
+This file has the game logic
+Black Jack
+Author: Karen Sarai Morales Montiel
+Creation date: April 1, 2024
+"""
 from classes.card import Card
 from classes.deck import Deck
 import random
@@ -34,9 +41,14 @@ class Blackjack_Game:
         Returns:
             int: Score of the hand
         """
+        #Starts score and number of aces
         score = 0
         num_aces = 0
+        #Goes through the whole hand
         for card in hand:
+            #If the value is a digit then adds it to the score
+            # if it's not but it's not an Ace either adds 10
+            #if it's an ace add up the number of aces and adds 11 to score
             if card.value.isdigit():
                 score += int(card.value)
             elif card.value in ['Jack', 'Queen', 'King']:
@@ -44,6 +56,9 @@ class Blackjack_Game:
             else:
                 num_aces += 1
                 score += 11
+        #If the score is bigger than 21
+        #and there is more than one aces then less it by 10
+        #because if the value must have been 1
         while score > 21 and num_aces:
             score -= 10
             num_aces -= 1
