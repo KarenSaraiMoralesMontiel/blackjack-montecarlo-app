@@ -35,13 +35,7 @@ class StreamlitApp():
         self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
         #Simulate 
         self.blackjack_simulator.simulate()
-        # Get how much money per game the dealer makes
-        number_str = str(self.blackjack_simulator.how_much_money_per_game_dealer_makes())
-        #Structurate the data so it's easier to visualize
-        symbol = "+"
-        if number_str[0] == "-":
-            number_str = number_str[1:]
-            symbol = "-"
+        
         #Set header
         st.header('Simulation Results')
         #Set columns to put the numeric data we got
@@ -49,6 +43,13 @@ class StreamlitApp():
         #Set first metric, how many rounds does the dealer win per game
         col1.metric('Dealers Wins Per Game', self.blackjack_simulator.get_how_many_rounds_per_game_dealer_wins())
         #Set second metric, the average on how much money the dealers makes per game
+        # Get how much money per game the dealer makes
+        number_str = str(self.blackjack_simulator.how_much_money_per_game_dealer_makes())
+        #Structurate the data so it's easier to visualize
+        symbol = "+"
+        if number_str[0] == "-":
+            number_str = number_str[1:]
+            symbol = "-"
         col2.metric('Money Dealers Makes Per Game',f"{symbol}${number_str}")
         #Set third metric, if the dealer has wins or loses
         col3.metric('Does Dealer earns?', self.blackjack_simulator.does_dealer_earn() )
