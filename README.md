@@ -12,7 +12,7 @@ You can access the deployed app through the following link: [Blackjack MonteCarl
 
 Once you access the app, you can interact with it using the following steps:
 
-1. **Adjust Parameters**: Use the interactive sliders or input fields to adjust simulation parameters such as the number of repetitions, starting balance, bet amount, and rounds per game.
+1. **Adjust Parameters**: Use the sidebar input fields to adjust simulation parameters such as the number of repetitions, starting balance, bet amount, and rounds per game.
 
 2. **Run the Simulation**: Click on the "Run Simulation" button to start the Monte Carlo simulation. The app will run the simulation based on the provided parameters.
 
