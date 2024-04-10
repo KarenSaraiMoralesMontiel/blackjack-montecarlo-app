@@ -9,5 +9,5 @@ Creation date: April 5, 2024
 from streamlitapp import StreamlitApp
 
 if __name__ == '__main__':
-    #Initializes and instance of StreamlitApp
+    #Initializes an instance of StreamlitApp
     app = StreamlitApp()
