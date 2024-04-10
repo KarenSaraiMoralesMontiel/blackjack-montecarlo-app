@@ -72,7 +72,7 @@ class StreamlitApp():
     #Set the percentage of the money exchanged the dealer gets
         st.subheader('Money Percentage Dealer Gets')
         st.pyplot(self.blackjack_simulator.show_percentage_money_dealer_gets())
-        if st.sidebar.button('Reset Simulation'):
+        if st.sidebar.button('Run Simulation'):
             self.reset_simulation()
 
     def reset_simulation(self):
