@@ -20,6 +20,7 @@ Once you access the app, you can interact with it using the following steps:
 
 ## Screenshots
 
+![blackjack-montecarlo](https://github.com/KarenSaraiMoralesMontiel/blackjack-montecarlo-app/assets/62195892/c0dd9b44-1006-4310-bfb3-d5abd087b3ed)
 
 ## Acknowledgments
 
