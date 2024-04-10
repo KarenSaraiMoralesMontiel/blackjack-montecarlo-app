@@ -6,7 +6,7 @@ This Streamlit app provides a Monte Carlo simulation of the popular card game Bl
 
 ## Access the Deployed App
 
-You can access the deployed app through the following link: [Blackjack MonteCarlo Simulation]([https://your-app-url.com](https://karensaraimoralesmontiel-blackjack-montecarlo-app-main-pdun2j.streamlit.app/))
+You can access the deployed app through the following link: [Blackjack MonteCarlo Simulation]([[https://your-app-url.com](https://karensaraimoralesmontiel-blackjack-montecarlo-app-main-pdun2j.streamlit.app/)])
 
 ## How to Use
 
