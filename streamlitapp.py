@@ -30,7 +30,7 @@ class StreamlitApp():
         #Set the multiple win
         multiple_win = st.sidebar.number_input('Multiple Win', value=3.0, step=0.1)
         #Setting the Simulating Texxt
-        st.sidebar.text('Simulating...')
+        #st.sidebar.text('Simulating...')
         #Calling the simulation with the parameters given
         self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
         #Simulate 
