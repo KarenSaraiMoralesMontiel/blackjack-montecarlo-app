@@ -32,14 +32,13 @@ class StreamlitApp():
         #Setting the Simulating Texxt
         #st.sidebar.text('Simulating...')
         self.blackjack_simulator = None
-        @st.cache_data
-        def load_data():
+        
             #Calling the simulation with the parameters given
         
-            self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
+        self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
         #Simulate 
-            self.blackjack_simulator.simulate()
-        load_data()
+        self.blackjack_simulator.simulate()
+        
         #Set header
         st.header('Simulation Results')
         #Set columns to put the numeric data we got
