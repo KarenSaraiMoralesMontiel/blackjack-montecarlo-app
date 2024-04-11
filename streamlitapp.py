@@ -31,11 +31,15 @@ class StreamlitApp():
         multiple_win = st.sidebar.number_input('Multiple Win', value=3.0, step=0.1)
         #Setting the Simulating Texxt
         #st.sidebar.text('Simulating...')
-        #Calling the simulation with the parameters given
-        self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
-        #Simulate 
-        self.blackjack_simulator.simulate()
+        self.blackjack_simulator = None
+        @st.cache_data
+        def load_data():
+            #Calling the simulation with the parameters given
         
+            self.blackjack_simulator = Blackjack_MonteCarlo(n_rep=n_rep, starting_balance=starting_balance, bet=bet, rounds=rounds, multiple_win=multiple_win)
+        #Simulate 
+            self.blackjack_simulator.simulate()
+        load_data()
         #Set header
         st.header('Simulation Results')
         #Set columns to put the numeric data we got
